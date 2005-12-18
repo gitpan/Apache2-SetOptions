@@ -1,0 +1,77 @@
+NAME
+    Apache2::SetOptions - Set Apache Options from Perl
+
+SYNOPSIS
+      use Apache2::RequestRec;
+      use Apache2::SetOptions;
+      use Apache2::Const -compile=>':options';
+
+      $r->set_allow_options( Apache2::Const::OPT_EXECCGI |
+                             Apache2::Const::OPT_INDEXES );
+
+      $r->clear_allow_options( Apache2::Const::OPT_EXECCGI |
+                               Apache2::Const::OPT_INDEXES );
+
+      @list=$r->allow_options_as_strings( Apache2::Const::OPT_EXECCGI |
+                                          Apache2::Const::OPT_INDEXES );
+
+      ($opts, $err)=$r->allow_options_from_strings( qw{All
+                                                       SymLinksIfOwnerMatch
+                                                       MultiView} );
+
+INSTALLATION
+     perl Makefile.PL
+     make
+     make test
+     make install
+
+DEPENDENCIES
+    mod_perl2, Test::Deep
+
+DESCRIPTION
+    This module adds a few methods to "Apache2::RequestRec" class to work
+    with Apache's "Options".
+
+  METHODS
+    $r->set_allow_options( $opts )
+    $r->clear_allow_options( $opts )
+        These 2 methods set or clear "Options" in the current
+        "$r->per_dir_config". Remember that "$r->per_dir_config" is reset
+        after the Uri Translation Phase. Thus, these methods are not useful
+        in an "PerlPostReadRequestHandler" or a "PerlTransHandler".
+
+        When called from a "PerlMapToStorageHandler" options set this way
+        may be overridden in later phases since after this phase
+        "<Directory>", "<Files>" and "<Location>" sections are merged.
+
+        Options set the Header Parser Phase or later are valid until the end
+        of the request cycle.
+
+    @strings=$r->allow_options_as_strings( $opts )
+    @strings=Apache2::SetOptions->allow_options_as_strings( $opts )
+        convert an "Options" value into human readable strings.
+
+    ($opts, $err)=$r->allow_options_from_strings( @words )
+    ($opts, $err)=Apache2::SetOptions->allow_options_from_strings( @words )
+        convert strings into an "Options" value. The 2nd return value is an
+        ARRAY reference containing words that aren't known options.
+
+  EXPORT
+    nothing
+
+SEE ALSO
+    mod_perl2
+
+AUTHOR
+    Torsten Foertsch, <torsten.foertsch@gmx.net>
+
+SPONSORING
+    Sincere thanks to Arvato Direct Services (http://www.arvato.com/) for
+    sponsoring this module.
+
+COPYRIGHT AND LICENSE
+    Copyright (C) 2005 by Torsten Foertsch
+
+    This library is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+

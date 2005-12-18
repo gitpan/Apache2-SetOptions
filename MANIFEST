@@ -1,0 +1,13 @@
+Changes
+Makefile.PL
+MANIFEST
+README
+mk_README.sh
+SetOptions.xs
+lib/Apache2/SetOptions.pm
+t/TEST.PL
+t/001set_options.t
+t/conf/extra.conf.in
+t/TestOptions/set_options.pm
+perl-Apache2-SetOptions.spec
+META.yml                                 Module meta-data (added by MakeMaker)

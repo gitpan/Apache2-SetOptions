@@ -1,0 +1,11 @@
+PerlSwitches -I@ServerRoot@/../lib -I@ServerRoot@/../t/TestOptions
+
+PerlModule TestOptions::set_options
+
+PerlHeaderParserHandler TestOptions::set_options::init
+
+<Location /TestOptions/set_options>
+    Options Indexes Includes
+    SetHandler modperl
+    PerlResponseHandler TestOptions::set_options
+</Location>
